@@ -1,0 +1,75 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    background-color: rgba(197, 197, 197, 0.662);
+}
+
+th{
+    text-align: center;
+    padding: 15px;
+    background-color: rgba(255, 136, 0, 0.774);
+    border: 3px solid black;
+}
+
+td{
+    text-align: center;
+    border: 1px solid black;
+    font-size: 20px;
+    padding: 5px;
+    color: black;
+    text-transform: capitalize;
+}
+a{
+    color: black;
+    border-bottom-color: brown;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+h1, h2{
+    color: black;
+}
+
+
+
+nav{
+    background-color:rgba(255, 136, 0, 0.774); ;
+    display: flex;
+    justify-content:center;
+    gap: 8rem;
+    padding: 2rem;
+
+}
+nav a{
+    text-decoration: none;
+    color: black; 
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+#contenuDetail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+.input{
+    margin-bottom: 2rem;
+}
+
+.tableMessage, .tableTopic{
+    margin-bottom: 2rem;
+}
+
+.closed{
+    width: 35%;
+}
