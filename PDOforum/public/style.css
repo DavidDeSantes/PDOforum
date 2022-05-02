@@ -73,3 +73,51 @@ nav a{
 .closed{
     width: 35%;
 }
+
+.body2{
+    background: rgba(197, 197, 197, 0.662);
+}
+#container2{
+    width:400px;
+    margin:0 auto;
+    margin-top:10%;
+}
+/* Bordered form */
+.form2 {
+    width:100%;
+    padding: 30px;
+    border: 1px solid #f1f1f1;
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+#container2 h1{
+    width: 38%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+
+/* Full-width inputs */
+.input2[type=text], .input2[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+.input2[type=submit] {
+    background-color: rgba(255, 136, 0, 0.774);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+.input2[type=submit]:hover {
+    background-color: white;
+    color: rgba(255, 136, 0, 0.774);
+    border: 1px solid rgba(255, 136, 0, 0.774);
+}
