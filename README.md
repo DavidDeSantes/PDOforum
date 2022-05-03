@@ -7,4 +7,5 @@ Dans le cadre de ma formation "Développeur web et web mobile" j'ai reproduit ce
 - Ajout de la possibilité de créer des topics et des posts.
 - Mise en place de TinyMCE, pour le textArea des posts.
 - Ajout d'un code pour compter les catégories, topics, posts, membres.
+- Incription, avec mot de passe hasher.
 - CSS
