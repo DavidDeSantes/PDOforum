@@ -4,85 +4,72 @@ namespace Controller;
 
 use Model\Connect;
 
-
-
 class ConnexionController
 {
-    private $connection;
-    private $membre;
-
-    public function __construct($connection)
+    public function register()
     {
-        $this->connection = $connection;
+        require "view/register.php";
     }
 
-    public function getMembre($pseudo)
+    public function viewlogin()
     {
-        // PDO gère l'injection SQL en 3 étapes :
-        try {
-            // Faire de la requête SQL
-            $sql = "SELECT pseudo, password FROM membre WHERE pseudo = LOWER(:uname) ; ";
+        require 'view/viewLogin.php';
+    }
 
-            //Requête préparée dans le serveu, envoi au serveur mais pas encore l'execution (1er : Préparation)
-            $statement = $this->connection->prepare($sql);
+    //Fonction qui va permettre d'ajouter un utilisateur dans notre bdd(membre dans notre cas)
+    public function add_user()
+    {
+        $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            //injection des paramètres (2eme : Compilation)
-            $statement->bindParam("uname", $pseudo);
 
-            //Execution de la requête (3eme : Execution)
+        if ($pseudo && $password) {
+            // Le if ci-dessous, va permettre de comparer le password qu'on souhaite avec la répétition, si les 2 ne sont pas similaire, l'inscription ne marche pas. 
+            if ($_POST['password'] == $_POST['password2']) {
+                $pdo = Connect::seConnecter();
+                $requete = $pdo->prepare("
+                 INSERT INTO membre (pseudo, password)
+                 VALUES (:pseudo, :password)
+            ");
+                $pseudo = strtolower($pseudo);
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                $requete->execute([
+                    'pseudo' => $pseudo,
+                    'password' => $password
+                ]);
+                header('location: index.php?action=viewLogin');
+                die();
+            } else {
+                header('location: index.php?action=register');
+                echo "Les mots de passes ne sont pas identiques";
 
-            $statement->execute();
-
-            // On récupère l'objet utilisateur de la base de données 
-            $this->membre = $statement->fetch();
-
-            return $this->membre;
-        } catch (\PDOException $error) {
-            return $error->getMessage();
+            }
+        } else {
+            echo 'Service indisponible';
         }
-    }
-
-    public function verify_password($pseudo)
-    {
-        return password_verify($pseudo, $this->membre['password']);
     }
 
     public function login()
     {
-        require "view/login.php";
-        require_once("MyError.php");
-        require_once("TraitementController.php");
+        $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $hash_pass = password_verify($password, PASSWORD_DEFAULT);
 
-        $controller = new ConnexionController($connection);
+        if ($pseudo && $password) {
+            if ($_POST['password']) {
+                password_verify($password, $hash_pass);
+                $pdo = Connect::seConnecter();
+                $requete = $pdo->query('
+                SELECT pseudo, password
+                FROM membre WHERE pseudo = :pseudo');
+                $_SESSION['user'] = $pseudo;
 
-        $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_LOW);
-
-
-        $membre = $controller->getMembre($pseudo);
-
-        if (is_array($membre)) {
-
-            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_LOW);
-
-            $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            // Grâce à un algorythme cette fonction va réussir à analyser l'emprunte numérique du password hash de notre mdp
-            // est donc réussir à nous identifier si l'analyse est juste. 
-            if ($controller->verify_password($password)) {
-                // hash_equals est une fonction qui peux comparer 2 chaines de caractères hashé 
-                if (hash_equals($_SESSION['token'], $token)) {
-
-                    $_SESSION['membre'] = $membre;
-                    header("Location:login.php");
-                } else {
-                    $_SESSION['error']->setError(107, "identification incorrect token ! Veuillez réessayer...");
-                    header("Location:index.php?error");
-                }
+                header('location:index.php?action=listCategorie');
+                die();
+            } else {
+                echo 'Une erreur est survenue';
             }
-        } else {
-
-            $_SESSION['error']->setError(101, "identification incorrect ! Veuillez réessayer...");
-            header("Location:index.php?error");
         }
     }
+
 }

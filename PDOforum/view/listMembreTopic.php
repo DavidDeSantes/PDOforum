@@ -1,7 +1,6 @@
 <?php ob_start(); 
 $membre = $requete->fetch();
 ?>
-<?php echo $membre['pseudo']." à créé ".$requete->rowCount()." topic(s)" ?>
 <table>
     <thead>
         <tr>

@@ -19,8 +19,8 @@
     <body>
         <header>
             <nav>
+                <a href="index.php?action=viewLogin">Connexion</a>
                 <a href="index.php?action=listCategorie">Accueil catégorie</a>
-                <a href="index.php?action=login">Connexion</a>
                 <a href="index.php?action=register">S'inscrire</a>
             </nav>
         </header>

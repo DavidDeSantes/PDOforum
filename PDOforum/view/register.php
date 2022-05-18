@@ -1,4 +1,8 @@
-<?php ob_start(); ?>
+<?php ob_start(); 
+
+     session_start();
+?>
+
 <body class="body2">
 <div id="container2">
     <!-- Le formulaire d'inscription -->
@@ -12,7 +16,7 @@
         <input class="input2" type="password" placeholder="Veuillez répéter votre mot de passe" name="password2" required>
         <input class="input2" type="submit" id="submit" value="s'inscrire">
     </form>
-    <p><a href="index.php?action=login">Connexion</a></p>
+    <p><a href="index.php?action=viewLogin">Connexion</a></p>
     </body>
 <?php
 $titre = "";

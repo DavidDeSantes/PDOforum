@@ -1,8 +1,18 @@
 <?php ob_start(); ?>
 <?php echo "Il y a ".$requete->rowCount()." catégorie(s)";
 $countAll = $requete_countAll->fetch();
-?>
 
+session_start();
+
+if(!isset($_SESSION['user'])){
+    echo "<h2><a href='index.php?action=viewLogin'>Connectez-vous</a>  Ou <a href='index.php?action=register'>Inscrivez-vous ! </a></h2>";
+}
+else{
+    echo "<h2> Bienvenue ".ucwords($_SESSION['user'])."</h2>";
+    echo "<h2><a href='logout.php'>Deconnexion<a></h2>";
+}
+
+?>
 <table>
     <thead>
         <tr>
